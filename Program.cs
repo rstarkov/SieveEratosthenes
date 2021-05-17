@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using RT.Util;
@@ -38,12 +38,12 @@ namespace SieveEratosthenes
 
             for (int step = 3; step <= 46340 /* sqrt of 2^31 */; step += 2)
             {
-                if ((((_composite[step >> 7]) >> ((step >> 1) & 63)) & 1) == 1)
+                if ((((_composite[step >> 7]) >> (step >> 1)) & 1) == 1)
                     continue;
 
                 for (uint x = (uint) (step * step); x < int.MaxValue; x += (uint) step)
                     if ((x & 1) != 0)
-                        _composite[x >> 7] |= 1ul << ((((int) x) >> 1) & 63);
+                        _composite[x >> 7] |= 1ul << (((int) x) >> 1);
             }
         }
 
@@ -55,7 +55,7 @@ namespace SieveEratosthenes
             if (value < 2 || (value & 1) == 0)
                 return false;
             ulong c = _composite[value >> 7]; // 1 for even numbers + 6 for one of the 64 bits per ulong
-            return ((c >> ((value >> 1) & 63)) & 1) == 0;
+            return ((c >> ((value >> 1))) & 1) == 0;
         }
     }
 }
