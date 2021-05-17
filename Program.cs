@@ -11,7 +11,7 @@ namespace SieveEratosthenes
             var map = new PrimeMap();
             Console.WriteLine($"{(DateTime.UtcNow - start).TotalMilliseconds:#,0} ms");
 
-            map.Dispose(); // comment this out and watch the speed change
+            map.Foo(); // comment this out and watch the speed change from 7.1s to 8.4s
 
             start = DateTime.UtcNow;
             map = new PrimeMap();
@@ -19,7 +19,7 @@ namespace SieveEratosthenes
         }
     }
 
-    unsafe class PrimeMap : IDisposable
+    unsafe class PrimeMap
     {
         ulong* _composite;
 
@@ -38,9 +38,9 @@ namespace SieveEratosthenes
             }
         }
 
-        public void Dispose()
+        public void Foo()
         {
-            Marshal.FreeHGlobal((IntPtr) _composite);
+            Console.WriteLine("Bar");
         }
     }
 }
