@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using RT.Util;
 
@@ -40,6 +41,7 @@ namespace SieveEratosthenes
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool get(int value)
         {
             if ((value & 1) == 0)
@@ -48,6 +50,7 @@ namespace SieveEratosthenes
             return ((c >> ((value >> 1) & 63)) & 1) == 1;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void set(int value)
         {
             if ((value & 1) == 0)
