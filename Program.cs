@@ -20,6 +20,10 @@ namespace SieveEratosthenes
                 minCycles = Math.Min(minCycles, c.Toc());
                 minTime = Math.Min(minTime, Ut.Toc());
                 Console.WriteLine($"{minTime * 1000:#,0} ms, {minCycles:#,0} cycles");
+
+                //for (int i = 0; i < 20000; i++)
+                //    if (map.IsPrime(i))
+                //        Console.WriteLine(i);
             }
         }
     }
@@ -34,31 +38,24 @@ namespace SieveEratosthenes
 
             for (int step = 3; step <= 46340 /* sqrt of 2^31 */; step += 2)
             {
-                if (get(step))
+                if ((((_composite[step >> 7]) >> ((step >> 1) & 63)) & 1) == 1)
                     continue;
+
                 for (uint x = (uint) (step * step); x < int.MaxValue; x += (uint) step)
-                    set((int) x);
+                    if ((x & 1) != 0)
+                        _composite[x >> 7] |= 1ul << ((((int) x) >> 1) & 63);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool get(int value)
+        public bool IsPrime(int value)
         {
-            if ((value & 1) == 0)
+            if (value == 2)
                 return true;
+            if (value < 2 || (value & 1) == 0)
+                return false;
             ulong c = _composite[value >> 7]; // 1 for even numbers + 6 for one of the 64 bits per ulong
-            return ((c >> ((value >> 1) & 63)) & 1) == 1;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void set(int value)
-        {
-            if ((value & 1) == 0)
-                return;
-            ulong* cell = _composite + (value >> 7);
-            ulong c = *cell;
-            c |= 1ul << ((value >> 1) & 63);
-            *cell = c;
+            return ((c >> ((value >> 1) & 63)) & 1) == 0;
         }
     }
 }
