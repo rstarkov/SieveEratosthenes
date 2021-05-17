@@ -24,11 +24,13 @@ namespace SieveEratosthenes
                 //for (int i = 0; i < 20000; i++)
                 //    if (map.IsPrime(i))
                 //        Console.WriteLine(i);
+
+                map.Dispose();
             }
         }
     }
 
-    unsafe class PrimeMap
+    unsafe class PrimeMap : IDisposable
     {
         ulong* _composite;
 
@@ -45,6 +47,11 @@ namespace SieveEratosthenes
                     if ((x & 1) != 0)
                         _composite[x >> 7] |= 1ul << (((int) x) >> 1);
             }
+        }
+
+        public void Dispose()
+        {
+            Marshal.FreeHGlobal((IntPtr) _composite);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
