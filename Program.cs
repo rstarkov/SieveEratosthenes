@@ -21,13 +21,21 @@ namespace SieveEratosthenes
                 minTime = Math.Min(minTime, Ut.Toc());
                 Console.WriteLine($"{minTime * 1000:#,0} ms, {minCycles:#,0} cycles");
 
-                //for (int i = 0; i < 20000; i++)
-                //    if (map.IsPrime(i))
-                //        Console.WriteLine(i);
+                assert(map.IsPrime(1009));
+                assert(!map.IsPrime(1011));
+                assert(!map.IsPrime(7_917));
+                assert(map.IsPrime(7_919));
+                assert(map.IsPrime(1_000_003));
+                assert(!map.IsPrime(1_000_005));
+                assert(map.IsPrime(1_000_000_007));
+                assert(map.IsPrime(1_000_000_009));
+                assert(!map.IsPrime(1_000_000_011));
 
                 map.Dispose();
             }
         }
+
+        static void assert(bool x) { if (!x) throw new Exception(); }
     }
 
     unsafe class PrimeMap : IDisposable
